@@ -90,7 +90,7 @@
     }
   });
 
-  // Click-to-ESP
+  // Click-to-ESP (permanent green lines, works alongside auto ESP)
   let clickESP=false;
   addButton("🎯 Click ESP",()=>{
     clickESP=!clickESP;
@@ -115,14 +115,14 @@
       line.style.left=window.innerWidth/2+"px";
       line.style.top=window.innerHeight/2+"px";
       line.style.width=Math.hypot(cx-window.innerWidth/2,cy-window.innerHeight/2)+"px";
-      line.style.height="2px";
-      line.style.background="red";
+      line.style.height="1px";
+      line.style.background="lime"; // ✅ green, same as ESP
       line.style.transformOrigin="0 0";
       line.style.transform=`rotate(${Math.atan2(cy-window.innerHeight/2,cx-window.innerWidth/2)}rad)`;
       line.style.zIndex="999998";
       line.style.pointerEvents="none";
 
-      document.body.appendChild(line); // 🔴 stays permanently
+      document.body.appendChild(line); // stays permanently
     }
   },true);
 
