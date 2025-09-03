@@ -42,12 +42,13 @@
     b.onmouseout=()=>{b.style.background="black";b.style.color="lime";};
     b.onclick=fn;
     menu.appendChild(b);
+    return b;
   }
 
   // ESP Toggle
-  makeBtn("💀 ESP: OFF",()=>{
+  let espBtn = makeBtn("💀 ESP: OFF",()=>{
     espOn=!espOn;
-    document.querySelector("button:contains('💀 ESP')").textContent=`💀 ESP: ${espOn?"ON":"OFF"}`;
+    espBtn.textContent=`💀 ESP: ${espOn?"ON":"OFF"}`;
     if(!espOn){ // remove old boxes
       espBoxes.forEach(b=>b.remove());
       espBoxes=[];
@@ -55,9 +56,9 @@
   });
 
   // Delete Toggle
-  makeBtn("🗑️ Delete: OFF",()=>{
+  let delBtn = makeBtn("🗑️ Delete: OFF",()=>{
     deleteOn=!deleteOn;
-    document.querySelector("button:contains('🗑️ Delete')").textContent=`🗑️ Delete: ${deleteOn?"ON":"OFF"}`;
+    delBtn.textContent=`🗑️ Delete: ${deleteOn?"ON":"OFF"}`;
   });
 
   // Undo last deleted
@@ -70,13 +71,13 @@
 
   // Draw ESP boxes
   function drawESP(){
-    // remove old boxes
     espBoxes.forEach(b=>b.remove());
     espBoxes=[];
     if(!espOn) return;
-    // find clickable elements
+    // find clickable elements, ignore menu itself
     let clickable=document.querySelectorAll("button,a,input,select,textarea,[onclick]");
     clickable.forEach(el=>{
+      if(menu.contains(el)) return; // ignore menu
       let rect=el.getBoundingClientRect();
       let box=document.createElement("div");
       box.style.position="fixed";
@@ -88,16 +89,20 @@
       box.style.pointerEvents="none";
       box.style.zIndex="999998";
 
-      // Line to top-left corner
+      // Line from center
+      let cx = rect.left + rect.width/2;
+      let cy = rect.top + rect.height/2;
       let line=document.createElement("div");
       line.style.position="fixed";
       line.style.left="0px";
       line.style.top="0px";
-      line.style.width=Math.hypot(rect.left,rect.top)+"px";
+      let dx = cx - 0;
+      let dy = cy - 0;
+      line.style.width=Math.hypot(dx,dy)+"px";
       line.style.height="2px";
       line.style.background="lime";
       line.style.transformOrigin="0 0";
-      let angle=Math.atan2(rect.top,rect.left)*180/Math.PI;
+      let angle=Math.atan2(dy,dx)*180/Math.PI;
       line.style.transform=`rotate(${angle}deg)`;
       line.style.pointerEvents="none";
       line.style.zIndex="999998";
@@ -109,16 +114,16 @@
     });
   }
 
-  setInterval(drawESP,200);
+  setInterval(drawESP,50); // faster refresh
 
   // Delete click handler
   document.addEventListener("mousedown",e=>{
     if(deleteOn){
+      if(menu.contains(e.target)) return; // ignore menu
       e.preventDefault();
       e.stopPropagation();
       deletedElements.push(e.target);
       e.target.remove();
     }
   },true);
-
 })();
