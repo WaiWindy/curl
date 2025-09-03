@@ -1,5 +1,4 @@
 (function(){
-  // Remove old if exists
   let old=document.getElementById("hiPanel"); if(old) old.remove();
 
   // Panel
@@ -8,16 +7,15 @@
   panel.style.position="fixed";
   panel.style.top="50px";
   panel.style.left="50px";
-  panel.style.width="260px";
+  panel.style.width="220px";
   panel.style.background="#111";
   panel.style.color="lime";
-  panel.style.padding="10px";
+  panel.style.padding="8px";
   panel.style.border="2px solid lime";
   panel.style.fontFamily="monospace";
   panel.style.zIndex="999999";
-  panel.style.borderRadius="8px";
-  panel.style.boxShadow="0 0 10px lime";
-  panel.style.cursor="move";
+  panel.style.borderRadius="6px";
+  panel.style.boxShadow="0 0 8px lime";
   panel.innerHTML="<b>💀 HI Hack Panel 💀</b><br>";
   document.body.appendChild(panel);
 
@@ -54,7 +52,7 @@
     alert("Delete Mode: "+(deleteMode?"ON":"OFF"));
   });
 
-  // ESP Mode (auto)
+  // ESP Mode
   let espActive=false, espInterval;
   addButton("👁️ Toggle ESP",()=>{
     espActive=!espActive;
@@ -90,7 +88,7 @@
     }
   });
 
-  // Click-to-ESP (permanent green lines, works alongside auto ESP)
+  // Click ESP
   let clickESP=false;
   addButton("🎯 Click ESP",()=>{
     clickESP=!clickESP;
@@ -104,11 +102,8 @@
       e.target.remove();
     }
     if(clickESP && !panel.contains(e.target)){
-      e.preventDefault(); e.stopPropagation();
-      let rect=e.target.getBoundingClientRect();
-      let cx=rect.left+rect.width/2;
-      let cy=rect.top+rect.height/2;
-
+      let cx=e.clientX;
+      let cy=e.clientY;
       let line=document.createElement("div");
       line.className="hiESP manual";
       line.style.position="fixed";
@@ -116,13 +111,12 @@
       line.style.top=window.innerHeight/2+"px";
       line.style.width=Math.hypot(cx-window.innerWidth/2,cy-window.innerHeight/2)+"px";
       line.style.height="1px";
-      line.style.background="lime"; // ✅ green, same as ESP
+      line.style.background="lime";
       line.style.transformOrigin="0 0";
       line.style.transform=`rotate(${Math.atan2(cy-window.innerHeight/2,cx-window.innerWidth/2)}rad)`;
       line.style.zIndex="999998";
       line.style.pointerEvents="none";
-
-      document.body.appendChild(line); // stays permanently
+      document.body.appendChild(line);
     }
   },true);
 
