@@ -1,7 +1,6 @@
 (function(){
   // Remove old if exists
   let old=document.getElementById("hiPanel"); if(old) old.remove();
-  let oldESP=document.querySelectorAll(".hiESP"); oldESP.forEach(e=>e.remove());
 
   // Panel
   let panel=document.createElement("div");
@@ -55,13 +54,13 @@
     alert("Delete Mode: "+(deleteMode?"ON":"OFF"));
   });
 
-  // ESP Mode (all clickable buttons/links)
+  // ESP Mode (auto)
   let espActive=false, espInterval;
   addButton("👁️ Toggle ESP",()=>{
     espActive=!espActive;
     if(espActive){
       espInterval=setInterval(()=>{
-        document.querySelectorAll(".hiESP").forEach(e=>e.remove());
+        document.querySelectorAll(".hiESP.auto").forEach(e=>e.remove());
         let elems=document.querySelectorAll("a,button,input[type=button],input[type=submit]");
         elems.forEach(el=>{
           if(panel.contains(el)) return;
@@ -70,7 +69,7 @@
             let cx=rect.left+rect.width/2;
             let cy=rect.top+rect.height/2;
             let line=document.createElement("div");
-            line.className="hiESP";
+            line.className="hiESP auto";
             line.style.position="fixed";
             line.style.left=window.innerWidth/2+"px";
             line.style.top=window.innerHeight/2+"px";
@@ -87,7 +86,7 @@
       },100);
     } else {
       clearInterval(espInterval);
-      document.querySelectorAll(".hiESP").forEach(e=>e.remove());
+      document.querySelectorAll(".hiESP.auto").forEach(e=>e.remove());
     }
   });
 
@@ -109,19 +108,21 @@
       let rect=e.target.getBoundingClientRect();
       let cx=rect.left+rect.width/2;
       let cy=rect.top+rect.height/2;
+
       let line=document.createElement("div");
-      line.className="hiESP";
+      line.className="hiESP manual";
       line.style.position="fixed";
       line.style.left=window.innerWidth/2+"px";
       line.style.top=window.innerHeight/2+"px";
       line.style.width=Math.hypot(cx-window.innerWidth/2,cy-window.innerHeight/2)+"px";
-      line.style.height="1px";
+      line.style.height="2px";
       line.style.background="red";
       line.style.transformOrigin="0 0";
       line.style.transform=`rotate(${Math.atan2(cy-window.innerHeight/2,cx-window.innerWidth/2)}rad)`;
       line.style.zIndex="999998";
       line.style.pointerEvents="none";
-      document.body.appendChild(line);
+
+      document.body.appendChild(line); // 🔴 stays permanently
     }
   },true);
 
