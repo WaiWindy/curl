@@ -20,7 +20,7 @@
   menu.style.boxShadow="0 0 20px lime";
   menu.style.borderRadius="8px";
   menu.style.animation="hackFade 0.5s";
-  menu.innerHTML="<b>💻 Hack Menu v3 💻</b><br>";
+  menu.innerHTML="<b>Hack Menu v3 By WaiWindy</b><br>";
 
   // Tabs
   let tabs=document.createElement("div");
@@ -72,8 +72,8 @@
     if(tab==="Text"){
       makeBtn("📝 Edit Page",()=>{ document.body.contentEditable=document.body.contentEditable!=="true"; alert("Edit mode "+(document.body.contentEditable==="true"?"ENABLED":"DISABLED")); });
       makeBtn("🔄 Flip Text",()=>{ function flip(str){var map={'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ','k':'ʞ','l':'ʃ','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ','u':'n','v':'ʌ','w':'ʍ','x':'x','y':'ʎ','z':'z'};return str.split('').map(ch=>map[ch.toLowerCase()]||ch).reverse().join('')} function walk(n){if(n.nodeType===3){n.nodeValue=flip(n.nodeValue);}else n.childNodes.forEach(walk);} walk(document.body); });
-      makeBtn("🤖 Replace Text",()=>{ function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,"PLEN!"); } else n.childNodes.forEach(change);} change(document.body); });
-      makeBtn("😀 Random Emoji",()=>{ let emojis=["😀","🚀","🔥","🍕","🌈","🐱","💀","😎"]; function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,()=>emojis[Math.floor(Math.random()*emojis.length)]); } else n.childNodes.forEach(change);} change(document.body); });
+      makeBtn("🤖 Replace Text",()=>{ function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,"HACKED!"); } else n.childNodes.forEach(change);} change(document.body); });
+      makeBtn("😀 Random Emoji",()=>{ let emojis=["😀","🚀","🔥","🤓","🥀","😂","💀","😎"]; function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,()=>emojis[Math.floor(Math.random()*emojis.length)]); } else n.childNodes.forEach(change);} change(document.body); });
       makeBtn("✨ Blink Text",()=>{ let s=document.createElement("style"); s.id="blinkStyle"; s.innerHTML="*{animation:blink 1s infinite;}@keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}"; document.head.appendChild(s); });
     } else if(tab==="Visual"){
       makeBtn("🌀 Spin Page",()=>{ document.body.style.transition="all 2s"; document.body.style.transform="rotate(360deg)"; setInterval(()=>{document.body.style.transform+=" rotate(360deg)";},2000); });
@@ -90,7 +90,7 @@
       makeBtn("🎬 Swap GIFs",()=>{ document.querySelectorAll("img").forEach(img=>{ if(img.src.endsWith(".gif")) img.src="https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif"; }); });
       makeBtn("🔍 Image Zoom",()=>{ document.querySelectorAll("img").forEach(img=>img.style.transform="scale(1.5)"); });
     } else if(tab==="Easter"){
-      makeBtn("🎲 Random Word Storm",()=>{ let words=["PLEN","AURORA","JET","HACK","LOL","OMG"]; function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,()=>words[Math.floor(Math.random()*words.length)]);} else n.childNodes.forEach(change);} change(document.body); });
+      makeBtn("🎲 Random Word Storm",()=>{ let words=["ATTACK","HAHA","EZ","HACK","LOL","OMG"]; function change(n){ if(n.nodeType===3){ n.nodeValue=n.nodeValue.replace(/\S+/g,()=>words[Math.floor(Math.random()*words.length)]);} else n.childNodes.forEach(change);} change(document.body); });
       makeBtn("🕹️ Floating Elements",()=>{ document.querySelectorAll("div,p,img,span").forEach(el=>{ el.style.position="relative"; setInterval(()=>{ el.style.top=(Math.random()*20-10)+"px"; el.style.left=(Math.random()*20-10)+"px"; },300); }); });
       makeBtn("💨 Disappearing Page",()=>{ setInterval(()=>{ document.body.style.opacity=Math.random(); },500); });
       makeBtn("👻 Invisible Cursor",()=>{ document.body.style.cursor="none"; });
