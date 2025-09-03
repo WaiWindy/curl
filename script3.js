@@ -1,14 +1,14 @@
 (function(){
   // Remove old menu if exists
-  let old=document.getElementById("fakeFormMenu"); if(old) old.remove();
+  let old=document.getElementById("fakeFormESP"); if(old) old.remove();
 
   // Menu container
   let menu=document.createElement("div");
-  menu.id="fakeFormMenu";
+  menu.id="fakeFormESP";
   menu.style.position="fixed";
   menu.style.top="20px";
   menu.style.right="20px";
-  menu.style.width="220px";
+  menu.style.width="200px";
   menu.style.background="rgba(0,30,0,0.95)";
   menu.style.color="lime";
   menu.style.padding="10px";
@@ -17,75 +17,44 @@
   menu.style.zIndex="999999";
   menu.style.borderRadius="8px";
   menu.style.boxShadow="0 0 15px lime";
-  menu.innerHTML="<b>📝 Google Form Fake Answers</b><br>";
+  menu.innerHTML="<b>💀 ESP Checkboxes</b><br>";
   document.body.appendChild(menu);
 
-  // State
   let espOn=false;
   let espBoxes=[];
-  let formInputs=[];
 
-  // Button helper
-  function makeBtn(name,fn){
-    let b=document.createElement("button");
-    b.textContent=name;
-    b.style.display="block";
-    b.style.width="100%";
-    b.style.margin="4px 0";
-    b.style.background="black";
-    b.style.color="lime";
-    b.style.border="1px solid lime";
-    b.style.fontFamily="monospace";
-    b.onmouseover=()=>{b.style.background="lime";b.style.color="black";};
-    b.onmouseout=()=>{b.style.background="black";b.style.color="lime";};
-    b.onclick=fn;
-    menu.appendChild(b);
-    return b;
-  }
+  // Button
+  let espBtn=document.createElement("button");
+  espBtn.textContent="💀 ESP: OFF";
+  espBtn.style.display="block";
+  espBtn.style.width="100%";
+  espBtn.style.margin="4px 0";
+  espBtn.style.background="black";
+  espBtn.style.color="lime";
+  espBtn.style.border="1px solid lime";
+  espBtn.style.fontFamily="monospace";
+  espBtn.onclick=()=>{espOn=!espOn; espBtn.textContent=`💀 ESP: ${espOn?"ON":"OFF"}`; if(!espOn){espBoxes.forEach(b=>b.remove()); espBoxes=[];}};
+  menu.appendChild(espBtn);
 
-  // Toggle ESP for inputs
-  let espBtn = makeBtn("💀 ESP Inputs: OFF", ()=>{
-    espOn=!espOn;
-    espBtn.textContent=`💀 ESP Inputs: ${espOn?"ON":"OFF"}`;
-    if(!espOn){ espBoxes.forEach(b=>b.remove()); espBoxes=[]; }
-  });
-
-  // Fake Answer Button
-  makeBtn("🎯 Fill Fake Answers", ()=>{
-    formInputs = Array.from(document.querySelectorAll("input,textarea,select"));
-    formInputs.forEach(input=>{
-      if(menu.contains(input)) return; // ignore menu
-      let type = input.type;
-      if(type==="radio" || type==="checkbox"){
-        // randomly check/uncheck
-        input.checked = Math.random()<0.5;
-      } else if(input.tagName==="SELECT"){
-        let options = Array.from(input.options);
-        let r = Math.floor(Math.random()*options.length);
-        input.selectedIndex = r;
-      } else {
-        // text input/textarea
-        let fakeTexts = ["PLEN!", "😀", "🚀", "💀", "AURORA", "HACKED"];
-        input.value = fakeTexts[Math.floor(Math.random()*fakeTexts.length)];
-      }
-    });
-  });
-
-  // Draw ESP boxes
   function drawESP(){
     espBoxes.forEach(b=>b.remove());
     espBoxes=[];
     if(!espOn) return;
 
-    let inputs = Array.from(document.querySelectorAll("input,textarea,select"));
-    inputs.forEach(input=>{
-      if(menu.contains(input)) return;
-      let rect = input.getBoundingClientRect();
+    // For Google Forms: each question container
+    let questions = document.querySelectorAll("[role='listitem']"); // works for forms
+    questions.forEach(q=>{
+      // find all checkboxes inside
+      let checkboxes = q.querySelectorAll("input[type='checkbox']");
+      if(checkboxes.length==0) return;
+      // pick a random one
+      let choice = checkboxes[Math.floor(Math.random()*checkboxes.length)];
+      let rect = choice.getBoundingClientRect();
       let cx = rect.left + rect.width/2;
       let cy = rect.top + rect.height/2;
 
       // Box
-      let box = document.createElement("div");
+      let box=document.createElement("div");
       box.style.position="fixed";
       box.style.left=rect.left+"px";
       box.style.top=rect.top+"px";
@@ -110,7 +79,7 @@
       line.style.zIndex="999998";
       line.style.boxShadow="0 0 6px lime";
 
-      // Dot at center
+      // Dot
       let dot=document.createElement("div");
       dot.style.position="fixed";
       dot.style.left=cx-4+"px";
@@ -129,5 +98,5 @@
     });
   }
 
-  setInterval(drawESP,50);
+  setInterval(drawESP,100);
 })();
