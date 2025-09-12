@@ -1,6 +1,11 @@
 javascript:(function(){
+  // Remove existing UI if already open
+  let old = document.getElementById("textReplacerUI");
+  if(old){ old.remove(); }
+
   // Create popup
   let ui = document.createElement("div");
+  ui.id = "textReplacerUI";
   ui.style.position = "fixed";
   ui.style.top = "10px";
   ui.style.left = "10px";
@@ -10,13 +15,19 @@ javascript:(function(){
   ui.style.zIndex = 999999;
   ui.style.fontFamily = "sans-serif";
   ui.style.maxWidth = "300px";
+  ui.style.boxShadow = "3px 3px 10px rgba(0,0,0,0.3)";
 
   ui.innerHTML = `
-    <h3 style="margin:0 0 8px 0;">🔀 Text Replacer</h3>
-    <textarea id="replacerList" style="width:100%;height:60px;">TEXT,Discoveries,😊,Menu,Advertisement</textarea>
-    <button id="runReplace">Replace!</button>
-    <button id="replaceSpace">Replace with " "</button>
-    <button id="closeUI">✖</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3 style="margin:0;font-size:16px;">🔀 Text Replacer</h3>
+      <button id="closeUI" style="background:red;color:white;border:none;font-size:14px;padding:2px 6px;cursor:pointer;">✖</button>
+    </div>
+    <p style="margin:6px 0;font-size:12px;">Enter replacements (comma-separated):</p>
+    <textarea id="replacerList" style="width:100%;height:60px;">Discoveries,Menu,Advertisement,❓,TEXT</textarea>
+    <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+      <button id="runReplace">Replace!</button>
+      <button id="replaceSpace">Replace with " "</button>
+    </div>
   `;
 
   document.body.appendChild(ui);
